@@ -1,6 +1,9 @@
 name: Linting on PR, with stricter rules on new code
 
-on: [pull_request]
+on:
+  pull_request:
+  push:
+    branches: [tmp-ci-run]
 
 permissions:
   contents: read
@@ -32,7 +35,7 @@ jobs:
         python -m pip install flake8 flake8-docstrings
 
     - name: Fetch pull request target branch
-      run: git fetch origin ${{ github.base_ref }}
+      run: git fetch origin ${{ github.base_ref || 'main' }}
 
     - name: Lint with standard ignores on modified files
       shell: bash
